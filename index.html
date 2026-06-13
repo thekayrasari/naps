@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NAPS — Neural Airfoil Profile Synthesizer</title>
+    <meta name="description" content="Professional-grade aerodynamic profile synthesis engine." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="title-container">
+      <h1 class="main-heading">NAPS — Neural Airfoil Profile Synthesizer</h1>
+      <div class="sub-heading">Aerodynamic Profile Generation &mdash; <span id="model-status" class="badge">Initializing...</span></div>
+    </div>
+
+    <main class="dashboard-grid">
+      <!-- Left Column: Controls & Stats -->
+      <aside class="sidebar-column">
+        
+        <div class="card">
+          <div class="card-title">Target Aerodynamics</div>
+          <div class="form-group">
+            <div class="label-row">
+              <span>Target Lift Coefficient (Cl)</span>
+              <span id="cl-value" class="label-val">0.80</span>
+            </div>
+            <input id="cl-slider" type="range" min="0.0" max="1.5" step="0.01" value="0.80">
+          </div>
+          <div class="form-group">
+            <div class="label-row">
+              <span>Manual Thickness (t)</span>
+              <span id="t-value" class="label-val">0.12</span>
+            </div>
+            <input id="t-slider" type="range" min="0.05" max="0.15" step="0.01" value="0.12">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Synthesized Parameters</span>
+            <span id="naca-name" class="badge badge-interactive">Profile 0000</span>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-label">Camber (m)</div>
+              <div id="param-m" class="stat-value">0.000</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Pos (p)</div>
+              <div id="param-p" class="stat-value">0.000</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Thick (t)</div>
+              <div id="param-t" class="stat-value">0.000</div>
+            </div>
+          </div>
+          
+          <div class="card-title" style="margin-top: 24px;">Training Loss (MSE)</div>
+          <div class="cp-plot-container">
+            <canvas id="loss-canvas"></canvas>
+          </div>
+
+          <div class="control-actions" style="margin-top: 24px;">
+            <button id="train-btn" class="shimmer-btn">Recalculate Surrogate</button>
+            <button id="export-btn" class="shimmer-btn" style="--btn-color: #0284c7; --btn-border: 2px solid #0284c7;">
+              <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Export .DAT
+            </button>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- Right Column: Visualization -->
+      <section class="main-column">
+        <div class="card" style="padding: 0; border: none; background: transparent; box-shadow: none;">
+          <div class="card-title" style="border-bottom: 2px solid var(--color-primary);">Geometry Visualization</div>
+          <div class="canvas-container">
+            <div class="canvas-overlay-indicator">NAPS Section View</div>
+            <canvas id="airfoil-canvas"></canvas>
+          </div>
+        </div>
+
+        <div class="banner">
+          <div class="banner-title">Engineering Notice</div>
+          <div class="banner-content">
+            This module dynamically iterates over the standard 4-digit analytical equations to build a computational surrogate model. 
+            The integrated engine synthesizes the required geometric variables <code>[m, p, t]</code> based on theoretical Thin Airfoil Cl targets.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      &copy; 2026 Aerospace Systems Architecture
+    </footer>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
